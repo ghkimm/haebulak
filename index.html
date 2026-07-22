@@ -333,6 +333,13 @@
 
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+    .field-error {
+      font-size: 12px;
+      color: #d04040;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 16px;
+    }
 
     /* ── 반응형 ── */
     @media (max-width: 520px) {
@@ -360,10 +367,6 @@
     <div class="cards">
 
       <div class="role-card">
-        <div class="card-top">
-          <div class="card-icon">✏️</div>
-          <span class="card-badge">4주 과정</span>
-        </div>
         <div class="card-title">컨설팅 서비스</div>
         <div class="card-desc">주차별 과제를 작성하고 강사의 피드백을 확인하세요.<br>질문을 남기고 답변을 받을 수 있습니다.</div>
         <div class="card-feature">
@@ -407,6 +410,7 @@
             <div class="field-hint">개별로 전달드린 코드예요.</div>
           </div>
           <button class="btn-enter" onclick="enterParticipant()">들어가기</button>
+          <div class="field-error" id="p-error"></div>
           <div class="modal-footer">코드를 모르시면 담당자에게 연락 주세요.</div>
         </div>
       </div>
@@ -425,6 +429,7 @@
             <div class="field-hint">관리자 전용 코드예요.</div>
           </div>
           <button class="btn-enter" onclick="enterAdmin()">들어가기</button>
+          <div class="field-error" id="a-error"></div>
           <div class="modal-footer">코드를 모르시면 담당자에게 연락 주세요.</div>
         </div>
       </div>
@@ -432,12 +437,16 @@
   </div>
 
   <script>
+    const PARTICIPANTS = { '진정민': 'port01', '성미림': 'port02' };
+    const ADMINS      = { '김건형': 'port00' };
+
     function openModal(tab) {
       switchTab(tab || 'participant');
       document.getElementById('overlay').classList.add('open');
     }
     function closeModal() {
       document.getElementById('overlay').classList.remove('open');
+      clearErrors();
     }
     function handleOverlayClick(e) {
       if (e.target === document.getElementById('overlay')) closeModal();
@@ -447,20 +456,45 @@
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.getElementById('tab-' + tab).classList.add('active');
       document.getElementById('panel-' + tab).classList.add('active');
+      clearErrors();
     }
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+    }
+    function showError(id, msg) {
+      document.getElementById(id).textContent = msg;
+    }
+
     function enterParticipant() {
       const name = document.getElementById('p-name').value.trim();
       const code = document.getElementById('p-code').value.trim();
+      clearErrors();
       if (!name || !code) return;
-      window.location.href = './workspace.html';
+      if (PARTICIPANTS[name] === code) {
+        window.location.href = './workspace.html';
+      } else {
+        showError('p-error', '이름 또는 코드가 맞지 않아요.');
+      }
     }
     function enterAdmin() {
       const name = document.getElementById('a-name').value.trim();
       const code = document.getElementById('a-code').value.trim();
+      clearErrors();
       if (!name || !code) return;
-      window.location.href = './instructor.html';
+      if (ADMINS[name] === code) {
+        window.location.href = './instructor.html';
+      } else {
+        showError('a-error', '이름 또는 코드가 맞지 않아요.');
+      }
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Enter') {
+        if (document.getElementById('panel-participant').classList.contains('active')) enterParticipant();
+        else enterAdmin();
+      }
+    });
   </script>
 
 </body>
