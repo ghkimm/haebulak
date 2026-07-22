@@ -3,72 +3,320 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>해부락개론</title>
+  <title>교육서비스 및 관리</title>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: 'Pretendard Variable', Pretendard, -apple-system, sans-serif;
-      background: #ffffff;
+      background: #f5f5f4;
       color: #1a1a1a;
       min-height: 100vh;
+    }
+
+    /* ── 헤더 ── */
+    header {
+      padding: 32px 40px 24px;
+      border-bottom: 1px solid #ececed;
+      background: #ffffff;
+    }
+    header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    /* ── 메인 ── */
+    main {
+      padding: 48px 40px;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #9a9a9a;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .cards {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ── 서비스 카드 (정사각형) ── */
+    .service-card {
+      width: 160px;
+      height: 160px;
+      background: #ffffff;
+      border: 1px solid #e2e2e2;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 20px;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      user-select: none;
+    }
+    .service-card:hover {
+      border-color: #13724a;
+      box-shadow: 0 2px 12px rgba(19,114,74,0.08);
+    }
+    .service-card .card-icon {
+      width: 36px;
+      height: 36px;
+      background: #f0f0ef;
+      border-radius: 8px;
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 18px;
     }
-    .wrap {
-      max-width: 380px;
-      width: 100%;
-      padding: 24px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #13724a;
-      margin-bottom: 8px;
-    }
-    p {
+    .service-card .card-name {
       font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .service-card .card-sub {
+      font-size: 12px;
       color: #9a9a9a;
-      margin-bottom: 40px;
+      margin-top: 3px;
     }
-    .links {
+
+    /* ── 모달 오버레이 ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.32);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay.open {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
     }
-    a {
+
+    /* ── 모달 박스 ── */
+    .modal {
+      background: #ffffff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 380px;
+      margin: 24px;
+      overflow: hidden;
+      animation: modal-in 0.18s ease;
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 탭 ── */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ececed;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #9a9a9a;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn.active {
+      color: #13724a;
+      border-bottom-color: #13724a;
+    }
+
+    /* ── 모달 본문 ── */
+    .modal-body {
+      padding: 28px 24px 24px;
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .modal-desc {
+      font-size: 13px;
+      color: #9a9a9a;
+      margin-bottom: 24px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+    .field label {
       display: block;
-      padding: 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #4a4a4a;
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      border: 1px solid #d8d8d8;
       border-radius: 6px;
+      outline: none;
+      transition: border-color 0.15s;
+      color: #1a1a1a;
+    }
+    .field input:focus {
+      border-color: #13724a;
+    }
+    .field-hint {
+      font-size: 12px;
+      color: #9a9a9a;
+      margin-top: 5px;
+    }
+
+    .btn-enter {
+      width: 100%;
+      padding: 14px;
       font-size: 15px;
       font-weight: 600;
-      text-decoration: none;
+      font-family: inherit;
+      color: #ffffff;
+      background: #13724a;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
       transition: background 0.15s;
     }
-    a.primary {
-      background: #13724a;
-      color: #ffffff;
+    .btn-enter:hover { background: #0e5637; }
+
+    .modal-footer {
+      text-align: center;
+      font-size: 12px;
+      color: #9a9a9a;
+      margin-top: 20px;
     }
-    a.primary:hover { background: #0e5637; }
-    a.secondary {
-      border: 1px solid #d8d8d8;
-      color: #3a3a3a;
-    }
-    a.secondary:hover { background: #f5f5f4; }
+
+    /* ── 탭 패널 ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>해부락개론</h1>
-    <p>포트폴리오 컨설팅 서비스 프로토타입</p>
-    <div class="links">
-      <a href="./entry.html" class="primary">진입 화면</a>
-      <a href="./workspace.html" class="secondary">작업실 (참가자)</a>
-      <a href="./instructor.html" class="secondary">강사 관리</a>
+
+  <header>
+    <h1>교육서비스 및 관리</h1>
+  </header>
+
+  <main>
+    <p class="section-label">서비스</p>
+    <div class="cards">
+      <div class="service-card" onclick="openModal()">
+        <div class="card-icon">📋</div>
+        <div class="card-name">컨설팅 서비스</div>
+        <div class="card-sub">포트폴리오 컨설팅</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 모달 오버레이 -->
+  <div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+    <div class="modal" id="modal">
+
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-participant" onclick="switchTab('participant')">참가자</button>
+        <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')">관리자</button>
+      </div>
+
+      <!-- 참가자 패널 -->
+      <div class="tab-panel active" id="panel-participant">
+        <div class="modal-body">
+          <div class="modal-title">작업실 들어가기</div>
+          <div class="modal-desc">이름과 참가 코드를 입력하세요.</div>
+          <div class="field">
+            <label for="p-name">이름</label>
+            <input type="text" id="p-name" placeholder="">
+          </div>
+          <div class="field">
+            <label for="p-code">참가 코드</label>
+            <input type="text" id="p-code" placeholder="">
+            <div class="field-hint">개별로 전달드린 코드예요.</div>
+          </div>
+          <button class="btn-enter" onclick="enterParticipant()">들어가기</button>
+          <div class="modal-footer">코드를 모르시면 담당자에게 연락 주세요.</div>
+        </div>
+      </div>
+
+      <!-- 관리자 패널 -->
+      <div class="tab-panel" id="panel-admin">
+        <div class="modal-body">
+          <div class="modal-title">관리자 페이지 들어가기</div>
+          <div class="modal-desc">관리자 이름과 코드를 입력하세요.</div>
+          <div class="field">
+            <label for="a-name">이름</label>
+            <input type="text" id="a-name" placeholder="">
+          </div>
+          <div class="field">
+            <label for="a-code">관리자 코드</label>
+            <input type="text" id="a-code" placeholder="">
+            <div class="field-hint">관리자 전용 코드예요.</div>
+          </div>
+          <button class="btn-enter" onclick="enterAdmin()">들어가기</button>
+          <div class="modal-footer">코드를 모르시면 담당자에게 연락 주세요.</div>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('overlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('overlay').classList.remove('open');
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('overlay')) closeModal();
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.getElementById('panel-' + tab).classList.add('active');
+    }
+
+    function enterParticipant() {
+      const name = document.getElementById('p-name').value.trim();
+      const code = document.getElementById('p-code').value.trim();
+      if (!name || !code) return;
+      window.location.href = './workspace.html';
+    }
+
+    function enterAdmin() {
+      const name = document.getElementById('a-name').value.trim();
+      const code = document.getElementById('a-code').value.trim();
+      if (!name || !code) return;
+      window.location.href = './instructor.html';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
 </body>
 </html>
