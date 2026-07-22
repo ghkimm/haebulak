@@ -16,75 +16,163 @@
       min-height: 100vh;
     }
 
-    /* ── 헤더 ── */
-    header {
-      padding: 32px 40px 24px;
-      border-bottom: 1px solid #ececed;
+    /* ── 네비바 ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
       background: #ffffff;
+      border-bottom: 1px solid #ececed;
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    header h1 {
-      font-size: 18px;
+    .nav-logo {
+      font-size: 15px;
       font-weight: 700;
       color: #1a1a1a;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span {
+      color: #13724a;
     }
 
-    /* ── 메인 ── */
-    main {
-      padding: 48px 40px;
+    /* ── 히어로 ── */
+    .hero {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 64px 24px 48px;
     }
-    .section-label {
+    .hero-eyebrow {
       font-size: 12px;
       font-weight: 500;
-      color: #9a9a9a;
-      letter-spacing: 0.04em;
+      color: #13724a;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 15px;
+      color: #6b6b6b;
+      line-height: 1.7;
+    }
+
+    /* ── 서비스 카드 영역 ── */
+    .section {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9a9a9a;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
     }
     .cards {
       display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    /* ── 서비스 카드 (정사각형) ── */
-    .service-card {
-      width: 160px;
-      height: 160px;
+    /* ── 역할 카드 ── */
+    .role-card {
       background: #ffffff;
       border: 1px solid #e2e2e2;
-      border-radius: 10px;
+      border-radius: 16px;
+      padding: 28px 28px 24px;
+      transition: border-color 0.15s;
+    }
+    .role-card:hover {
+      border-color: #c8c8c8;
+    }
+
+    .card-top {
       display: flex;
-      flex-direction: column;
       align-items: flex-start;
-      justify-content: flex-end;
-      padding: 20px;
-      cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      user-select: none;
+      justify-content: space-between;
+      margin-bottom: 20px;
     }
-    .service-card:hover {
-      border-color: #13724a;
-      box-shadow: 0 2px 12px rgba(19,114,74,0.08);
-    }
-    .service-card .card-icon {
-      width: 36px;
-      height: 36px;
-      background: #f0f0ef;
-      border-radius: 8px;
-      margin-bottom: 24px;
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 20px;
+      flex-shrink: 0;
     }
-    .service-card .card-name {
+    .card-icon.green { background: #e8f3ee; }
+    .card-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: #13724a;
+      background: #e8f3ee;
+      border-radius: 100px;
+      padding: 4px 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .card-desc {
+      font-size: 14px;
+      color: #6b6b6b;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 11px 18px;
+      border-radius: 8px;
       font-size: 14px;
       font-weight: 600;
-      color: #1a1a1a;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      border: none;
+      line-height: 1;
     }
-    .service-card .card-sub {
-      font-size: 12px;
-      color: #9a9a9a;
-      margin-top: 3px;
+    .btn-primary {
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+    .btn-primary:hover { background: #333333; }
+    .btn-outline {
+      background: transparent;
+      color: #3a3a3a;
+      border: 1px solid #d8d8d8;
+    }
+    .btn-outline:hover { background: #f5f5f4; border-color: #b8b8b8; }
+    .btn-chevron {
+      font-size: 13px;
+      opacity: 0.6;
     }
 
     /* ── 모달 오버레이 ── */
@@ -92,31 +180,27 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.32);
-      z-index: 100;
+      background: rgba(0,0,0,0.36);
+      z-index: 200;
       align-items: center;
       justify-content: center;
+      padding: 24px;
     }
-    .overlay.open {
-      display: flex;
-    }
+    .overlay.open { display: flex; }
 
-    /* ── 모달 박스 ── */
     .modal {
       background: #ffffff;
-      border-radius: 12px;
+      border-radius: 14px;
       width: 100%;
       max-width: 380px;
-      margin: 24px;
       overflow: hidden;
       animation: modal-in 0.18s ease;
     }
     @keyframes modal-in {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── 탭 ── */
     .tabs {
       display: flex;
       border-bottom: 1px solid #ececed;
@@ -131,6 +215,7 @@
       border: none;
       border-bottom: 2px solid transparent;
       cursor: pointer;
+      font-family: inherit;
       transition: color 0.15s, border-color 0.15s;
     }
     .tab-btn.active {
@@ -138,7 +223,6 @@
       border-bottom-color: #13724a;
     }
 
-    /* ── 모달 본문 ── */
     .modal-body {
       padding: 28px 24px 24px;
     }
@@ -153,10 +237,7 @@
       color: #9a9a9a;
       margin-bottom: 24px;
     }
-
-    .field {
-      margin-bottom: 16px;
-    }
+    .field { margin-bottom: 16px; }
     .field label {
       display: block;
       font-size: 13px;
@@ -172,18 +253,15 @@
       border: 1px solid #d8d8d8;
       border-radius: 6px;
       outline: none;
-      transition: border-color 0.15s;
       color: #1a1a1a;
+      transition: border-color 0.15s;
     }
-    .field input:focus {
-      border-color: #13724a;
-    }
+    .field input:focus { border-color: #13724a; }
     .field-hint {
       font-size: 12px;
       color: #9a9a9a;
       margin-top: 5px;
     }
-
     .btn-enter {
       width: 100%;
       padding: 14px;
@@ -199,7 +277,6 @@
       transition: background 0.15s;
     }
     .btn-enter:hover { background: #0e5637; }
-
     .modal-footer {
       text-align: center;
       font-size: 12px;
@@ -207,49 +284,79 @@
       margin-top: 20px;
     }
 
-    /* ── 탭 패널 ── */
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+
+    /* ── 반응형 ── */
+    @media (max-width: 520px) {
+      nav { padding: 0 20px; }
+      .hero { padding: 48px 20px 36px; }
+      .hero h1 { font-size: 28px; }
+      .section { padding: 0 20px 60px; }
+      .role-card { padding: 24px 20px 20px; }
+      .card-title { font-size: 18px; }
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>교육서비스 및 관리</h1>
-  </header>
+  <!-- 네비바 -->
+  <nav>
+    <div class="nav-logo">교육서비스 <span>&</span> 관리</div>
+  </nav>
 
-  <main>
-    <p class="section-label">서비스</p>
+  <!-- 히어로 -->
+  <div class="hero">
+    <div class="hero-eyebrow">Education Services</div>
+    <h1>배움을 설계하고<br>성장을 기록합니다</h1>
+    <p>주차별 과제 작성부터 강사 피드백까지,<br>컨설팅의 모든 과정을 한 곳에서 관리합니다.</p>
+  </div>
+
+  <!-- 서비스 카드 -->
+  <div class="section">
+    <div class="section-label">서비스</div>
     <div class="cards">
-      <div class="service-card" onclick="openModal()">
-        <div class="card-icon">📋</div>
-        <div class="card-name">컨설팅 서비스</div>
-        <div class="card-sub">포트폴리오 컨설팅</div>
-      </div>
-    </div>
-  </main>
 
-  <!-- 모달 오버레이 -->
+      <!-- 참가자 카드 -->
+      <div class="role-card">
+        <div class="card-top">
+          <div class="card-icon green">✏️</div>
+          <span class="card-badge">4주 과정</span>
+        </div>
+        <div class="card-title">컨설팅 서비스</div>
+        <div class="card-desc">주차별 과제를 작성하고 강사의 피드백을 확인하세요.<br>질문을 남기고 답변을 받을 수 있습니다.</div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openModal('participant')">
+            참가자로 들어가기 <span class="btn-chevron">›</span>
+          </button>
+          <button class="btn btn-outline" onclick="openModal('admin')">
+            관리자로 들어가기 <span class="btn-chevron">›</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 모달 -->
   <div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
     <div class="modal" id="modal">
-
       <div class="tabs">
         <button class="tab-btn active" id="tab-participant" onclick="switchTab('participant')">참가자</button>
         <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')">관리자</button>
       </div>
 
-      <!-- 참가자 패널 -->
       <div class="tab-panel active" id="panel-participant">
         <div class="modal-body">
           <div class="modal-title">작업실 들어가기</div>
           <div class="modal-desc">이름과 참가 코드를 입력하세요.</div>
           <div class="field">
             <label for="p-name">이름</label>
-            <input type="text" id="p-name" placeholder="">
+            <input type="text" id="p-name">
           </div>
           <div class="field">
             <label for="p-code">참가 코드</label>
-            <input type="text" id="p-code" placeholder="">
+            <input type="text" id="p-code">
             <div class="field-hint">개별로 전달드린 코드예요.</div>
           </div>
           <button class="btn-enter" onclick="enterParticipant()">들어가기</button>
@@ -257,65 +364,56 @@
         </div>
       </div>
 
-      <!-- 관리자 패널 -->
       <div class="tab-panel" id="panel-admin">
         <div class="modal-body">
           <div class="modal-title">관리자 페이지 들어가기</div>
           <div class="modal-desc">관리자 이름과 코드를 입력하세요.</div>
           <div class="field">
             <label for="a-name">이름</label>
-            <input type="text" id="a-name" placeholder="">
+            <input type="text" id="a-name">
           </div>
           <div class="field">
             <label for="a-code">관리자 코드</label>
-            <input type="text" id="a-code" placeholder="">
+            <input type="text" id="a-code">
             <div class="field-hint">관리자 전용 코드예요.</div>
           </div>
           <button class="btn-enter" onclick="enterAdmin()">들어가기</button>
           <div class="modal-footer">코드를 모르시면 담당자에게 연락 주세요.</div>
         </div>
       </div>
-
     </div>
   </div>
 
   <script>
-    function openModal() {
+    function openModal(tab) {
+      switchTab(tab || 'participant');
       document.getElementById('overlay').classList.add('open');
     }
-
     function closeModal() {
       document.getElementById('overlay').classList.remove('open');
     }
-
     function handleOverlayClick(e) {
       if (e.target === document.getElementById('overlay')) closeModal();
     }
-
     function switchTab(tab) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.getElementById('tab-' + tab).classList.add('active');
       document.getElementById('panel-' + tab).classList.add('active');
     }
-
     function enterParticipant() {
       const name = document.getElementById('p-name').value.trim();
       const code = document.getElementById('p-code').value.trim();
       if (!name || !code) return;
       window.location.href = './workspace.html';
     }
-
     function enterAdmin() {
       const name = document.getElementById('a-name').value.trim();
       const code = document.getElementById('a-code').value.trim();
       if (!name || !code) return;
       window.location.href = './instructor.html';
     }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
   </script>
 
 </body>
