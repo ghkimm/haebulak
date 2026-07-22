@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: #13724a; text-decoration: none; }
+  a:hover { color: #0e5637; }
+  textarea, input { font-family: inherit; }
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #ffffff; font-family: 'Pretendard', sans-serif; color: #1a1a1a; padding-bottom: 96px;">
+
+  <div style="max-width: 720px; margin: 0 auto; padding: 40px 24px 0;">
+
+    <div style="display: flex; gap: 6px; margin-bottom: 44px;">
+      <sc-for list="{{ weeks }}" as="w" hint-placeholder-count="4">
+        <div onClick="{{ w.onClick }}" style="flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 8px; border-radius: 8px; cursor: pointer; background: {{ w.viewBg }}; transition: background 0.15s;">
+          <div style="height: 3px; border-radius: 2px; background: {{ w.barColor }};"></div>
+          <span style="font-size: 13px; font-weight: {{ w.weight }}; color: {{ w.labelColor }};">{{ w.label }}</span>
+          <span style="font-size: 12px; color: {{ w.statusColor }};">{{ w.status }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ showW1 }}" hint-placeholder-val="">
+      <div>
+        <header style="margin-bottom: 40px;">
+          <h1 style="margin: 0; font-size: 26px; line-height: 1.4; font-weight: 700; letter-spacing: -0.01em;">상담 단계</h1>
+          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #6b6b6b;">정답은 없어요. 지금 생각을 편하게 적어 주세요.</p>
+        </header>
+        <div style="display: flex; flex-direction: column; gap: 40px;">
+          <section>
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+              <span style="font-size: 12px; font-weight: 600; color: #9a9a9a;">항목 1</span>
+              <h2 style="margin: 0; font-size: 18px; font-weight: 600;">지금 하고 있는 일</h2>
+            </div>
+            <textarea value="{{ w1now }}" onChange="{{ onW1now }}" placeholder="어떤 일을 하고 계신지 적어 주세요." style="width: 100%; min-height: 130px; padding: 16px; font-size: 15px; line-height: 1.7; border: 1px solid #d8d8d8; border-radius: 8px; outline: none; resize: vertical; transition: border-color 0.15s;" style-focus="border-color: #13724a;"></textarea>
+          </section>
+          <section>
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+              <span style="font-size: 12px; font-weight: 600; color: #9a9a9a;">항목 2</span>
+              <h2 style="margin: 0; font-size: 18px; font-weight: 600;">앞으로 하고 싶은 일</h2>
+            </div>
+            <textarea value="{{ w1want }}" onChange="{{ onW1want }}" placeholder="지금 그려 보는 방향을 편하게 적어 주세요." style="width: 100%; min-height: 130px; padding: 16px; font-size: 15px; line-height: 1.7; border: 1px solid #d8d8d8; border-radius: 8px; outline: none; resize: vertical; transition: border-color 0.15s;" style-focus="border-color: #13724a;"></textarea>
+          </section>
+          <section>
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+              <span style="font-size: 12px; font-weight: 600; color: #9a9a9a;">항목 3</span>
+              <h2 style="margin: 0; font-size: 18px; font-weight: 600;">이 수업을 듣는 이유</h2>
+            </div>
+            <textarea value="{{ w1why }}" onChange="{{ onW1why }}" placeholder="어떤 마음으로 신청하셨는지 적어 주세요." style="width: 100%; min-height: 130px; padding: 16px; font-size: 15px; line-height: 1.7; border: 1px solid #d8d8d8; border-radius: 8px; outline: none; resize: vertical; transition: border-color 0.15s;" style-focus="border-color: #13724a;"></textarea>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showW2 }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <header style="margin-bottom: 40px;">
+          <h1 style="margin: 0; font-size: 26px; line-height: 1.4; font-weight: 700; letter-spacing: -0.01em;">기록 단계</h1>
+          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #6b6b6b;">활동했던 이력을 꺼내 적고, 강사 피드백을 함께 확인하세요. 궁금한 점은 피드백 아래에 남기시면 됩니다.</p>
+          <p style="margin: 16px 0 0; font-size: 13px; color: #9a9a9a;">마감 · 7월 29일 (화) 자정</p>
+        </header>
+
+        <section style="margin-bottom: 56px;">
+          <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px;">
+            <span style="font-size: 12px; font-weight: 600; color: #9a9a9a;">항목 1</span>
+            <h2 style="margin: 0; font-size: 18px; font-weight: 600;">나아가고자 하는 방향</h2>
+          </div>
+          <textarea value="{{ direction }}" onChange="{{ onDirection }}" placeholder="정리된 문장이 아니어도 됩니다." style="width: 100%; min-height: 200px; padding: 16px; font-size: 15px; line-height: 1.7; border: 1px solid #d8d8d8; border-radius: 8px; outline: none; resize: vertical; transition: border-color 0.15s;" style-focus="border-color: #13724a;"></textarea>
+
+          <sc-if value="{{ directionFeedback }}" hint-placeholder-val="">
+            <div style="margin-top: 14px; padding: 18px; background: #f5f5f4; border-radius: 8px;">
+              <div style="font-size: 12px; font-weight: 600; color: #6b6b6b; margin-bottom: 6px;">강사 피드백</div>
+              <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #3a3a3a;">{{ directionFeedback }}</p>
+
+              <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid #e6e6e4; display: flex; flex-direction: column; gap: 14px;">
+                <sc-for list="{{ directionQuestions }}" as="q" hint-placeholder-count="0">
+                  <div>
+                    <div style="font-size: 11px; font-weight: 600; color: #9a9a9a; margin-bottom: 4px;">내 질문</div>
+                    <p style="margin: 0 0 4px; font-size: 13px; line-height: 1.6; color: #1a1a1a;">{{ q.text }}</p>
+                    <span style="font-size: 12px; color: #a8a8a8;">답변을 기다리는 중이에요</span>
+                  </div>
+                </sc-for>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <textarea value="{{ directionDraft }}" onChange="{{ onDirectionDraft }}" placeholder="이 피드백에 궁금한 점을 적어 주세요." style="width: 100%; min-height: 64px; padding: 12px; font-size: 13px; line-height: 1.6; border: 1px solid #dcdcda; border-radius: 6px; background: #ffffff; outline: none; resize: vertical;" style-focus="border-color: #13724a;"></textarea>
+                  <button onClick="{{ onAskDirection }}" style="align-self: flex-end; padding: 9px 16px; font-size: 13px; font-weight: 500; color: #3a3a3a; background: #ffffff; border: 1px solid #c8c8c8; border-radius: 6px; cursor: pointer;">질문 남기기</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </section>
+
+        <section>
+          <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px;">
+            <span style="font-size: 12px; font-weight: 600; color: #9a9a9a;">항목 2</span>
+            <h2 style="margin: 0; font-size: 18px; font-weight: 600;">지금까지의 모든 이력</h2>
+          </div>
+          <p style="margin: 0 0 24px; font-size: 14px; line-height: 1.6; color: #6b6b6b;">하나씩 추가해서 쌓아 주세요. 순서나 완성도는 신경 쓰지 않으셔도 됩니다.</p>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <sc-for list="{{ cards }}" as="c" hint-placeholder-count="2">
+              <div style="border: 1px solid #e2e2e2; border-radius: 10px; padding: 20px;">
+                <sc-if value="{{ c.isEditing }}" hint-placeholder-val="">
+                  <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <input value="{{ c.org }}" onChange="{{ c.onOrg }}" placeholder="단체명 또는 회사명" style="width: 100%; padding: 11px 13px; font-size: 14px; border: 1px solid #d8d8d8; border-radius: 6px; outline: none;" style-focus="border-color: #13724a;" />
+                    <input value="{{ c.topic }}" onChange="{{ c.onTopic }}" placeholder="대주제 — 거기서 무엇을 했는지 한 줄" style="width: 100%; padding: 11px 13px; font-size: 14px; border: 1px solid #d8d8d8; border-radius: 6px; outline: none;" style-focus="border-color: #13724a;" />
+                    <textarea value="{{ c.desc }}" onChange="{{ c.onDesc }}" placeholder="설명 — 자세히 적어 주세요" style="width: 100%; min-height: 90px; padding: 12px 13px; font-size: 14px; line-height: 1.7; border: 1px solid #d8d8d8; border-radius: 6px; outline: none; resize: vertical;" style-focus="border-color: #13724a;"></textarea>
+                    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                      <button onClick="{{ c.onDelete }}" style="padding: 9px 14px; font-size: 13px; color: #9a9a9a; background: none; border: none; cursor: pointer;">삭제</button>
+                      <button onClick="{{ c.onSave }}" style="padding: 9px 18px; font-size: 13px; font-weight: 600; color: #1a1a1a; background: #ffffff; border: 1px solid #c8c8c8; border-radius: 6px; cursor: pointer;">완료</button>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ c.isViewing }}" hint-placeholder-val="{{ true }}">
+                  <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
+                      <div style="min-width: 0; display: flex; gap: 12px;">
+                        <span style="flex-shrink: 0; font-size: 15px; font-weight: 700; color: #b0b0b0; line-height: 1.5;">{{ c.num }}</span>
+                        <div style="min-width: 0;">
+                          <div style="font-size: 15px; font-weight: 600; color: #1a1a1a;">{{ c.org }}</div>
+                          <div style="margin-top: 3px; font-size: 14px; color: #4a4a4a;">{{ c.topic }}</div>
+                        </div>
+                      </div>
+                      <div style="display: flex; gap: 2px; flex-shrink: 0;">
+                        <button onClick="{{ c.onEdit }}" style="padding: 6px 10px; font-size: 13px; color: #6b6b6b; background: none; border: none; cursor: pointer;">수정</button>
+                        <button onClick="{{ c.onDelete }}" style="padding: 6px 10px; font-size: 13px; color: #9a9a9a; background: none; border: none; cursor: pointer;">삭제</button>
+                      </div>
+                    </div>
+                    <sc-if value="{{ c.desc }}" hint-placeholder-val="">
+                      <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #555;">{{ c.desc }}</p>
+                    </sc-if>
+                    <sc-if value="{{ c.comment }}" hint-placeholder-val="">
+                      <div style="margin-top: 16px; padding: 16px; background: #f5f5f4; border-radius: 8px;">
+                        <div style="font-size: 11px; font-weight: 600; color: #9a9a9a; margin-bottom: 5px;">강사 코멘트</div>
+                        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #3a3a3a;">{{ c.comment }}</p>
+
+                        <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #e6e6e4; display: flex; flex-direction: column; gap: 12px;">
+                          <sc-for list="{{ c.questions }}" as="q" hint-placeholder-count="0">
+                            <div>
+                              <div style="font-size: 11px; font-weight: 600; color: #9a9a9a; margin-bottom: 4px;">내 질문</div>
+                              <p style="margin: 0 0 4px; font-size: 13px; line-height: 1.6; color: #1a1a1a;">{{ q.text }}</p>
+                              <span style="font-size: 12px; color: #a8a8a8;">답변을 기다리는 중이에요</span>
+                            </div>
+                          </sc-for>
+                          <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <textarea value="{{ c.draft }}" onChange="{{ c.onDraft }}" placeholder="이 코멘트에 궁금한 점을 적어 주세요." style="width: 100%; min-height: 56px; padding: 11px; font-size: 13px; line-height: 1.6; border: 1px solid #dcdcda; border-radius: 6px; background: #ffffff; outline: none; resize: vertical;" style-focus="border-color: #13724a;"></textarea>
+                            <button onClick="{{ c.onAsk }}" style="align-self: flex-end; padding: 8px 15px; font-size: 13px; font-weight: 500; color: #3a3a3a; background: #ffffff; border: 1px solid #c8c8c8; border-radius: 6px; cursor: pointer;">질문 남기기</button>
+                          </div>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <button onClick="{{ onAdd }}" style="width: 100%; padding: 15px; font-size: 14px; font-weight: 500; color: #4a4a4a; background: #ffffff; border: 1px dashed #cfcfcf; border-radius: 10px; cursor: pointer;" style-hover="border-color: #13724a; color: #13724a;">+ 이력 추가하기</button>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showComingSoon }}" hint-placeholder-val="">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px;">
+        <h1 style="margin: 0; font-size: 22px; font-weight: 700; color: #1a1a1a;">{{ comingLabel }}</h1>
+        <p style="margin: 12px 0 0; font-size: 15px; color: #9a9a9a;">아직 구성 중이에요.</p>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ true }}">
+    <div style="position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); border-top: 1px solid #ececec;">
+      <div style="max-width: 720px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px;">
+        <span style="font-size: 12px; color: #9a9a9a; flex: 1;">마지막 저장 · {{ lastSaved }}</span>
+        <button onClick="{{ onTempSave }}" style="padding: 11px 18px; font-size: 14px; font-weight: 500; color: #3a3a3a; background: #ffffff; border: 1px solid #c8c8c8; border-radius: 6px; cursor: pointer;">임시 저장</button>
+        <button onClick="{{ onSubmit }}" style="padding: 11px 22px; font-size: 14px; font-weight: 600; color: #ffffff; background: #13724a; border: none; border-radius: 6px; cursor: pointer;" style-hover="background: #0e5637;">제출하기</button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    activeWeek: 2,
+    w1now: "영상 편집 회사에서 브랜드 필름을 편집하고 있습니다.",
+    w1want: "기획부터 참여하는 브랜드 필름 디렉터로 나아가고 싶어요.",
+    w1why: "이력이 여기저기 흩어져 있어서, 한 번 제대로 정리하고 싶어 신청했습니다.",
+    direction: "브랜드 영상 편집을 계속 해왔고, 앞으로는 브랜드 필름 쪽으로 더 깊게 가고 싶습니다. 편집만 하기보다 기획 단계부터 참여하는 방향을 생각하고 있어요.",
+    directionFeedback: "방향이 잘 잡혀 있어요. 다만 '편집'이라는 단어가 반복되는데, 어떤 편집인지(장르와 톤)를 한 겹 더 구체화하면 다음 주에 고르기가 훨씬 수월해집니다.",
+    directionQuestions: [],
+    directionDraft: "",
+    items: [
+      { org: "스튜디오 모먼트", topic: "브랜드 영상 편집", desc: "3년간 20여 편의 브랜드 필름 편집을 맡았고, 촬영 현장에도 함께 참여했습니다.", comment: "방향과 가장 잘 맞는 이력이에요. 대표작 한두 개를 골라 다음 주에 자세히 풀어 봅시다.", questions: [], draft: "", editing: false },
+      { org: "개인 프로젝트", topic: "유튜브 채널 운영", desc: "일상 브이로그 채널을 2년간 운영하며 기획과 편집을 혼자 맡았습니다.", comment: "방향과는 조금 떨어져 있어요. 남길지 여부는 다음 주에 함께 정해요.", questions: [], draft: "", editing: false },
+      { org: "대학 방송국", topic: "촬영·조명 담당", desc: "교내 행사 중계와 정기 콘텐츠 촬영, 조명 세팅을 담당했습니다.", comment: "기본기를 보여주는 이력이라 살려두면 좋겠습니다.", questions: [], draft: "", editing: false },
+    ],
+    lastSaved: "어제 오후 11:12",
+  };
+
+  weeks() {
+    const a = this.state.activeWeek;
+    return [
+      { n: 1, label: "1주차", status: "완료", pstate: "done" },
+      { n: 2, label: "2주차", status: "진행 중", pstate: "current" },
+      { n: 3, label: "3주차", status: "대기", pstate: "wait" },
+      { n: 4, label: "4주차", status: "대기", pstate: "wait" },
+    ].map((w) => {
+      let c;
+      if (w.pstate === "current") c = { barColor: "#13724a", labelColor: "#13724a", statusColor: "#13724a", weight: 700 };
+      else if (w.pstate === "done") c = { barColor: "#cfcfcf", labelColor: "#8a8a8a", statusColor: "#b0b0b0", weight: 500 };
+      else c = { barColor: "#ececec", labelColor: "#b8b8b8", statusColor: "#c4c4c4", weight: 500 };
+      return {
+        ...w, ...c,
+        viewBg: a === w.n ? "#f0f0ef" : "transparent",
+        onClick: () => this.setState({ activeWeek: w.n }),
+      };
+    });
+  }
+
+  setItem(i, patch) {
+    this.setState((s) => {
+      const items = s.items.slice();
+      items[i] = { ...items[i], ...patch };
+      return { items };
+    });
+  }
+
+  renderVals() {
+    const a = this.state.activeWeek;
+    const cards = this.state.items.map((it, i) => ({
+      num: i + 1,
+      org: it.org, topic: it.topic, desc: it.desc, comment: it.comment,
+      questions: it.questions.map((t) => ({ text: t })),
+      draft: it.draft,
+      isEditing: !!it.editing,
+      isViewing: !it.editing,
+      onOrg: (e) => this.setItem(i, { org: e.target.value }),
+      onTopic: (e) => this.setItem(i, { topic: e.target.value }),
+      onDesc: (e) => this.setItem(i, { desc: e.target.value }),
+      onEdit: () => this.setItem(i, { editing: true }),
+      onSave: () => this.setItem(i, { editing: false }),
+      onDelete: () => this.setState((s) => ({ items: s.items.filter((_, j) => j !== i) })),
+      onDraft: (e) => this.setItem(i, { draft: e.target.value }),
+      onAsk: () => {
+        const it2 = this.state.items[i];
+        const q = (it2.draft || "").trim();
+        if (!q) return;
+        this.setItem(i, { questions: [...it2.questions, q], draft: "" });
+      },
+    }));
+
+    return {
+      weeks: this.weeks(),
+      showW1: a === 1,
+      showW2: a === 2,
+      showComingSoon: a === 3 || a === 4,
+      comingLabel: a === 3 ? "3주차 · 축약과 구조" : "4주차 · 제작",
+      showFooter: a === 1 || a === 2,
+
+      w1now: this.state.w1now, w1want: this.state.w1want, w1why: this.state.w1why,
+      onW1now: (e) => this.setState({ w1now: e.target.value }),
+      onW1want: (e) => this.setState({ w1want: e.target.value }),
+      onW1why: (e) => this.setState({ w1why: e.target.value }),
+
+      direction: this.state.direction,
+      directionFeedback: this.state.directionFeedback,
+      directionQuestions: this.state.directionQuestions.map((t) => ({ text: t })),
+      directionDraft: this.state.directionDraft,
+      onDirection: (e) => this.setState({ direction: e.target.value }),
+      onDirectionDraft: (e) => this.setState({ directionDraft: e.target.value }),
+      onAskDirection: () => {
+        const q = (this.state.directionDraft || "").trim();
+        if (!q) return;
+        this.setState((s) => ({ directionQuestions: [...s.directionQuestions, q], directionDraft: "" }));
+      },
+
+      cards,
+      onAdd: () => this.setState((s) => ({ items: [...s.items, { org: "", topic: "", desc: "", comment: "", questions: [], draft: "", editing: true }] })),
+      lastSaved: this.state.lastSaved,
+      onTempSave: () => this.setState({ lastSaved: "방금" }),
+      onSubmit: () => {},
+    };
+  }
+}
+</script>
+</body>
+</html>

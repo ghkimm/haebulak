@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: #13724a; text-decoration: none; }
+  a:hover { color: #0e5637; }
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #ffffff; font-family: 'Pretendard', sans-serif; color: #1a1a1a; padding: 24px;">
+  <div style="width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: stretch;">
+
+    <form style="display: flex; flex-direction: column; gap: 20px;" onSubmit="{{ onSubmit }}">
+      <label style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 13px; color: #4a4a4a; font-weight: 500;">이름</span>
+        <input
+          type="text"
+          value="{{ name }}"
+          onChange="{{ onName }}"
+          style="width: 100%; padding: 13px 14px; font-size: 15px; font-family: inherit; color: #1a1a1a; background: #ffffff; border: 1px solid #d8d8d8; border-radius: 6px; outline: none; transition: border-color 0.15s;"
+          style-focus="border-color: #13724a;" />
+      </label>
+
+      <label style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 13px; color: #4a4a4a; font-weight: 500;">참가 코드</span>
+        <input
+          type="text"
+          value="{{ code }}"
+          onChange="{{ onCode }}"
+          style="width: 100%; padding: 13px 14px; font-size: 15px; font-family: inherit; color: #1a1a1a; background: #ffffff; border: 1px solid #d8d8d8; border-radius: 6px; outline: none; transition: border-color 0.15s;"
+          style-focus="border-color: #13724a;" />
+        <span style="font-size: 12px; color: #9a9a9a;">개별로 전달드린 코드예요.</span>
+      </label>
+
+      <button
+        type="submit"
+        style="margin-top: 8px; width: 100%; padding: 14px; font-size: 15px; font-weight: 600; font-family: inherit; color: #ffffff; background: #13724a; border: none; border-radius: 6px; cursor: pointer; transition: background 0.15s;"
+        style-hover="background: #0e5637;">들어가기</button>
+    </form>
+
+    <p style="margin: 40px 0 0; text-align: center; font-size: 12px; line-height: 1.7; color: #9a9a9a;">코드를 모르시면 담당자에게 연락 주세요.</p>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { name: "", code: "" };
+  renderVals() {
+    return {
+      name: this.state.name,
+      code: this.state.code,
+      onName: (e) => this.setState({ name: e.target.value }),
+      onCode: (e) => this.setState({ code: e.target.value }),
+      onSubmit: (e) => { e.preventDefault(); },
+    };
+  }
+}
+</script>
+</body>
+</html>
