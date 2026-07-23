@@ -21,7 +21,14 @@
 </helmet>
 <div style="min-height: 100vh; background: #ffffff; font-family: 'Pretendard', sans-serif; color: #1a1a1a; padding-bottom: 96px;">
 
-  <div style="max-width: 720px; margin: 0 auto; padding: 40px 24px 0;">
+  <sc-if value="{{ toast }}" hint-placeholder-val="">
+    <div style="position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #ffffff; padding: 12px 22px; border-radius: 100px; font-size: 14px; font-weight: 600; z-index: 300; white-space: nowrap; letter-spacing: -0.01em; box-shadow: 0 4px 16px rgba(0,0,0,0.18);">{{ toast }}</div>
+  </sc-if>
+
+  <div style="max-width: 720px; margin: 0 auto; padding: 32px 24px 0;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;">
+      <span style="font-size: 13px; color: #9a9a9a;">{{ participantName }}님의 작업실</span>
+    </div>
 
     <div style="display: flex; gap: 6px; margin-bottom: 44px;">
       <sc-for list="{{ weeks }}" as="w" hint-placeholder-count="4">
@@ -196,20 +203,18 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = {
-    activeWeek: 2,
-    w1now: "영상 편집 회사에서 브랜드 필름을 편집하고 있습니다.",
-    w1want: "기획부터 참여하는 브랜드 필름 디렉터로 나아가고 싶어요.",
-    w1why: "이력이 여기저기 흩어져 있어서, 한 번 제대로 정리하고 싶어 신청했습니다.",
-    direction: "브랜드 영상 편집을 계속 해왔고, 앞으로는 브랜드 필름 쪽으로 더 깊게 가고 싶습니다. 편집만 하기보다 기획 단계부터 참여하는 방향을 생각하고 있어요.",
-    directionFeedback: "방향이 잘 잡혀 있어요. 다만 '편집'이라는 단어가 반복되는데, 어떤 편집인지(장르와 톤)를 한 겹 더 구체화하면 다음 주에 고르기가 훨씬 수월해집니다.",
+    activeWeek: 1,
+    participantName: new URLSearchParams(location.search).get('name') || '',
+    w1now: "",
+    w1want: "",
+    w1why: "",
+    direction: "",
+    directionFeedback: "",
     directionQuestions: [],
     directionDraft: "",
-    items: [
-      { org: "스튜디오 모먼트", topic: "브랜드 영상 편집", desc: "3년간 20여 편의 브랜드 필름 편집을 맡았고, 촬영 현장에도 함께 참여했습니다.", comment: "방향과 가장 잘 맞는 이력이에요. 대표작 한두 개를 골라 다음 주에 자세히 풀어 봅시다.", questions: [], draft: "", editing: false },
-      { org: "개인 프로젝트", topic: "유튜브 채널 운영", desc: "일상 브이로그 채널을 2년간 운영하며 기획과 편집을 혼자 맡았습니다.", comment: "방향과는 조금 떨어져 있어요. 남길지 여부는 다음 주에 함께 정해요.", questions: [], draft: "", editing: false },
-      { org: "대학 방송국", topic: "촬영·조명 담당", desc: "교내 행사 중계와 정기 콘텐츠 촬영, 조명 세팅을 담당했습니다.", comment: "기본기를 보여주는 이력이라 살려두면 좋겠습니다.", questions: [], draft: "", editing: false },
-    ],
-    lastSaved: "어제 오후 11:12",
+    items: [],
+    lastSaved: "",
+    toast: "",
   };
 
   weeks() {
@@ -291,9 +296,20 @@ class Component extends DCLogic {
 
       cards,
       onAdd: () => this.setState((s) => ({ items: [...s.items, { org: "", topic: "", desc: "", comment: "", questions: [], draft: "", editing: true }] })),
+      participantName: this.state.participantName,
       lastSaved: this.state.lastSaved,
-      onTempSave: () => this.setState({ lastSaved: "방금" }),
-      onSubmit: () => {},
+      toast: this.state.toast,
+      onTempSave: () => {
+        const now = new Date();
+        const h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0');
+        const label = `오후 ${h > 12 ? h - 12 : h}:${m}`;
+        this.setState({ lastSaved: label, toast: '임시저장되었습니다' });
+        setTimeout(() => this.setState({ toast: '' }), 2200);
+      },
+      onSubmit: () => {
+        this.setState({ toast: '제출되었습니다!' });
+        setTimeout(() => this.setState({ toast: '' }), 2500);
+      },
     };
   }
 }
